@@ -7,9 +7,13 @@ const AutoDM = () => {
   console.log("Start Sending Auto Direct Message");
   stream.on("follow", SendMessage);
   stream.on("tweet", function(tweet){
+    T.post('favorites/create', {id:tweet.id_str}, responseCB);
     console.log('vamsi');
   });
 };
+function responseCB(err, data, response){
+  console.log('helloo')
+}
 
 const SendMessage = user => {
   const { screen_name, name } = user.source;
