@@ -9,6 +9,7 @@
   "author": "Youssouf El AZIZI",
   "license": "ISC",
   "dependencies": {
-    "twit": "^2.2.11"
+    "twit": "^2.2.11",
+    "twitter-autohook": "^1.7.2"
   }
 }

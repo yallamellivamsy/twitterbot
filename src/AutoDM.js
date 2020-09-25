@@ -5,10 +5,37 @@ const timeout = 1000 * 60 * 5; // timeout to send the message 5 min
 const AutoDM = () => {
   const stream = T.stream("statuses/filter",{track: '@yallamellivamsy'});
   console.log("Start Sending Auto Direct Message");
+  stream.on("event", function (eventMsg) {
+    console.log(eventMsg)
+})
+  T.post('direct_messages/events/new', {
+    event: {
+        type: "message_create",
+        message_create: {
+            target: {
+                recipient_id: 475032641
+            },
+            message_data: {
+                text: 'Hi Ashok Welcome...'
+            }
+        }
+    }
+}, (error, event)=>{
+        if(error){
+          console.log(error)
+        }
+        else{
+           console.log(event);
+         }
+})
+
+
   stream.on("follow", SendMessage);
+
   stream.on("tweet", function(tweet){
     T.post('favorites/create', {id:tweet.id_str}, responseCB);
-    console.log('vamsi');
+
+    console.log(tweet);
   });
 };
 function responseCB(err, data, response){
