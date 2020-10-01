@@ -1,14 +1,15 @@
 const { Autohook } = require('twitter-autohook');
 const T = require("./src/Twit.js");
-const stream = T.stream("statuses/filter",{track: '@yallamellivamsy'});
+const config = require("./config");
+const stream = T.stream("statuses/filter",{track: config.userName});
 const Bot_ID = '2356618602';
  
 (async streamingFun => {
   const webhook = new Autohook({
-    token: '2356618602-KmhsQakKPvWIjNPU4M0mexo3bCC3fXMPSi63QmI',
-    token_secret: 'cRinIrTqhrCz7VUaVDSjkCt0C51MQyImSK4KP3936cGwI',
-    consumer_key: "Y52FlgacfLPWHrbNWkuldzPGh",
-    consumer_secret: "Raxul13dTIzWYCkjPIvXqvFXC9TzmmXqEMUONr7UytxCSa32Ko",
+    token: config.twitterApp.access_token,
+    token_secret: config.twitterApp.access_token_secret,
+    consumer_key: config.twitterApp.consumer_key,
+    consumer_secret: config.twitterApp.consumer_secret,
     env: "Dev",
     port: 5000,
   });
@@ -21,33 +22,6 @@ const Bot_ID = '2356618602';
     //sendMessage(event);
     console.log('Something happened')
     if (event.direct_message_events) {
-      //const senderScreenName = event.users[message.message_create.sender_id].screen_name;
-
-    /*  const requestConfig = {
-        url: 'https://api.twitter.com/1.1/direct_messages/events/new.json',
-        oauth: {
-          token: '2356618602-KmhsQakKPvWIjNPU4M0mexo3bCC3fXMPSi63QmI',
-          token_secret: 'cRinIrTqhrCz7VUaVDSjkCt0C51MQyImSK4KP3936cGwI',
-          consumer_key: "Y52FlgacfLPWHrbNWkuldzPGh",
-          consumer_secret: "Raxul13dTIzWYCkjPIvXqvFXC9TzmmXqEMUONr7UytxCSa32Ko",
-          env: "Dev",
-          port: 5000,
-        },
-        json: {
-          event: {
-            type: 'message_create',
-            message_create: {
-              target: {
-                recipient_id: 475032641,
-              },
-              message_data: {
-                text: `Hi! 👋`,
-              },
-            },
-          },
-        },
-      };
-      await post(requestConfig);*/
       postMessage(event);
   }
   });
@@ -56,7 +30,7 @@ const Bot_ID = '2356618602';
   await webhook.start();
   
   // Subscribes to a user's activity
-  await webhook.subscribe({oauth_token:"2356618602-KmhsQakKPvWIjNPU4M0mexo3bCC3fXMPSi63QmI", oauth_token_secret:"cRinIrTqhrCz7VUaVDSjkCt0C51MQyImSK4KP3936cGwI"});
+  await webhook.subscribe({oauth_token:config.twitterApp.access_token, oauth_token_secret:config.twitterApp.access_token_secret});
 })();
 
 function sendMessage(event){
